@@ -60,7 +60,7 @@ public class helpDesk()
             return "Time " +time +", IDLE";
         }
         else{
-            return "Time " +time+ ", Helping " + currentStudent.toString() + " from " + course;
+            return "Time " +time+ ", Helping " + currentStudent.toString();
         }
     }
 
