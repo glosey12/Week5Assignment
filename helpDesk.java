@@ -3,7 +3,7 @@ public class helpDesk()
     private int time;
     private int remainingWorkload;
 
-// array bounded queue
+    // array bounded queue
     private Queue<Student> q100 = new LinkedList<>();
 	private Queue<Student> q200 = new LinkedList<>();
 	private Queue<Student> q300 = new LinkedList<>();
@@ -60,7 +60,7 @@ public class helpDesk()
             return "Time " +time +", IDLE";
         }
         else{
-            return "Time " +time+ ", Helping " + currentStudent.toString();
+            return "Time " +time+ ", Helping " + currentStudent.toString() + " from " + course;
         }
     }
 
