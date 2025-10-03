@@ -2,7 +2,8 @@ public class helpDesk()
     private Student current;
     private int time;
     private int remainingWorkload;
-    
+
+// array bounded queue
     private Queue<Student> q100 = new LinkedList<>();
 	private Queue<Student> q200 = new LinkedList<>();
 	private Queue<Student> q300 = new LinkedList<>();
@@ -43,6 +44,7 @@ public class helpDesk()
         Student s = new Student(name, course, workload);
         int level= s.getLevel();
         if(!engueue(s,level)){
+			//student was turned away
             System.out.println("error");
         }
     }
