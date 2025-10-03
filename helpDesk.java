@@ -1,15 +1,19 @@
-public class helpDesk()
+public class helpDesk{
     private Student current;
     private int time;
     private int remainingWorkload;
 
     // array bounded queue
-    private Queue<Student> q100 = new LinkedList<>();
+   /* private Queue<Student> q100 = new LinkedList<>();
 	private Queue<Student> q200 = new LinkedList<>();
 	private Queue<Student> q300 = new LinkedList<>();
 	private Queue<Student> q400 = new LinkedList<>();
 
+*/  
 
+    public helpDesk(){
+        
+    }
     public void step(){
     // Advance the simulation one minute.
         if(current !=null){
@@ -68,3 +72,4 @@ public class helpDesk()
     // Return the entire HelpDesk session log from beginning to end.
     }
 
+}
