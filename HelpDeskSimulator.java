@@ -8,19 +8,31 @@ public class HelpDeskSimulator{
         String name = "";
         Integer course_number = 0;
         Integer workload_time = 0;
+       // Student newStudent = new Student();
         
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Enter your Office Hours, Dr. Jack!");
         of_hrs = keyboard.nextInt();
 
-        System.out.println("Enter student information");
-        arrival_time = keyboard.nextInt();
-        name = keyboard.nextLine();
-        course_number = keyboard.nextInt();
-        workload_time = keyboard.nextInt();
+        do
+        {
+            System.out.println("Enter student information");
+            arrival_time = keyboard.nextInt();
+            name = keyboard.next();
+            course_number = keyboard.nextInt();
+            workload_time = keyboard.nextInt();
+            newStudent.Student(arrival_time, name, course_number, workload_time);
+            Student newStudent = new Student(arrival_time, name, course_number, workload_time);
+
+        } while  (course_number != 0);
+
+
+        helpDesk help = new helpDesk();
+
+        //output
         
-
-
+        System.out.println(" ");
+        
         
     }
 }

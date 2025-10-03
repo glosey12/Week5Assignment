@@ -1,17 +1,27 @@
 public class Student {
     //student class
+	Integer arrival;
     String name;
-	int course;
-	int workload;
+	Integer course;
+	Integer workload;
     
-	public Student(String n, int c, int w) {
-		name = n;
-		course = c;
-		workload = w;
+	public Student(Integer a, String n, Integer c, Integer w) {
+		this.arrival = a;
+		this.name = n;
+		this.course = c;
+		this.workload = w;
+		//helpDesk help = new helpDesk(arrival, name, course, workload);
 	}
-	public int getLevel() {
+	public Integer getLevel() {
 		return course;
 	}
+	public Integer getArrival(){
+		return arrival; 
+	}
+	public Integer getWorkLoad(){
+		return workload;
+	}
+
 	public String toString() {
 		return name + " from CSC" + course;
 	}
