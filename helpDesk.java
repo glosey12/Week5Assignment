@@ -52,11 +52,11 @@ public class helpDesk{
         if(currentStudent !=null){
             remainingWorkload--;
             if(remainingWorkload==0){
-                log.append(currentStudent.toString()).append("\n");
+                log.append("Time ").append(time).append(", Finished helping ").append(currentStudent.toString()).append("\n");
                 currentStudent =null;
             }
         }
-        else{
+        if(currentStudent==null){
             if(!q100.isEmpty()) {
                 currentStudent=q100.dequeue();
             }
@@ -70,10 +70,14 @@ public class helpDesk{
                 currentStudent=q400.dequeue();
             }
             if(currentStudent != null){
-                remainingWorkload=currentStudent.workload;
+                remainingWorkload=currentStudent.getWorkLoad();
+                log.append("Time ").append(time).append(", Started helping ").append(currentStudent.toString()).append("/n");
             }
         }
         time++;
+    }
+    public void addStudent(Student s){
+        addStudent(s.getArrival(), s.getName(), s.getCourse(), s.getWorkLoad());
     }
 
     public void addStudent(Integer arrival, String name, int course, int workload){

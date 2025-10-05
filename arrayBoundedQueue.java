@@ -13,6 +13,7 @@ public class arrayBoundedQueue<T> {
         T temp = elements[front];
         if(front==DEFCAP-1){
             front=0;
+            count --;
             return temp;
          }
          front ++;
@@ -26,6 +27,7 @@ public class arrayBoundedQueue<T> {
         }
         rear++;
         elements[rear]=item;
+        count++;
         return;
     }
     public boolean isEmpty(){

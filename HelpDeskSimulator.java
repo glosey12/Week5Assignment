@@ -9,6 +9,7 @@ public class HelpDeskSimulator{
         Integer course_number = 0;
         Integer workload_time = 0;
        // Student newStudent = new Student();
+       ArrayList<Student> students = new ArrayList<>();
         
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Enter your Office Hours, Dr. Jack!");
@@ -28,10 +29,21 @@ public class HelpDeskSimulator{
 
 
         helpDesk help = new helpDesk();
+        int nextIndex=0;
+
+        for(int minute =1; minute< of_hrs; minute++){
+            while(nextIndex<students.size()&& students.get(nextIndex).arrival == minute){
+                help.addStudent(students.get(nextIndex));
+                nextIndex++;
+            }
+            help.step();
+            System.out.println(help.toString());
+        }
 
         //output
         
-        System.out.println(" ");
+        System.out.println("LOG:");
+        System.out.println(help.getLog());
         
     }
 }
