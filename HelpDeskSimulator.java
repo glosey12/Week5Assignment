@@ -21,7 +21,7 @@ public class HelpDeskSimulator{
             name = keyboard.next();
             course_number = keyboard.nextInt();
             workload_time = keyboard.nextInt();
-            newStudent.Student(arrival_time, name, course_number, workload_time);
+           // newStudent.Student(arrival_time, name, course_number, workload_time);
             Student newStudent = new Student(arrival_time, name, course_number, workload_time);
 
         } while  (course_number != 0);
@@ -32,7 +32,6 @@ public class HelpDeskSimulator{
         //output
         
         System.out.println(" ");
-        
         
     }
 }
