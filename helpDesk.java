@@ -1,14 +1,12 @@
 public class helpDesk{
-    private Student currentStudent;
-    private int time;
+    private Student currentStudent=null;
+    private int time=0;
     private int remainingWorkload;
-    private StringBuilder log = new StringBuilder();
+    private String log ="";
+   // private StringBuilder log = new StringBuilder();
 
     // array bounded queue
-    private arrayBoundedQueue<Student> q100;
-    private arrayBoundedQueue<Student> q200;
-    private arrayBoundedQueue<Student> q300;
-    private arrayBoundedQueue<Student> q400;
+    private arrayBoundedQueue<Student>[] queues;
     
 
 /*  private Queue<Student> q100 = new LinkedList<>();
@@ -18,13 +16,15 @@ public class helpDesk{
 
 */  
      public helpDesk(){
-        q100= new arrayBoundedQueue<>();
-        q200= new arrayBoundedQueue<>();
-        q300= new arrayBoundedQueue<>();
-        q400= new arrayBoundedQueue<>();
-        time=0;
-        remainingWorkload=0;
-        currentStudent=null;
+        queues = new arrayBoundedQueue[4]; // array size 4 - since we have level 1, 2, 3, 4
+        // populate the array -> put chairs at each waiting room
+        for (int i = 0; i<4; i++) {
+            queues[i] = new arrayBoundedQueue<>(3); // send our capacity to ArrayBoundedQueue class -> be able to work with every lvl independantly
+        }
+        this.time=0;
+        this.remainingWorkload=0;
+        this.currentStudent=null;
+        this.log="";
         
     }
 
@@ -52,54 +52,98 @@ public class helpDesk{
         if(currentStudent !=null){
             remainingWorkload--;
             if(remainingWorkload==0){
-                log.append("Time ").append(time).append(", Finished helping ").append(currentStudent.toString()).append("\n");
-                currentStudent =null;
+                log+="Time " +time +", Finished helping " +currentStudent.toString();
+                currentStudent=null;            
             }
         }
         if(currentStudent==null){
-            if(!q100.isEmpty()) {
-                currentStudent=q100.dequeue();
+            if(!queues[0].isEmpty()) {
+                currentStudent = queues[0].dequeue();
             }
-            else if(!q200.isEmpty()){
-                currentStudent=q200.dequeue();
+            else if(!queues[1].isEmpty()){
+                currentStudent = queues[1].dequeue();
             }
-            else if(!q300.isEmpty()){
-                currentStudent=q300.dequeue();
+            else if(!queues[2].isEmpty()){
+                currentStudent = queues[2].dequeue();
             }
-            else if(!q400.isEmpty()){
-                currentStudent=q400.dequeue();
+            else // assume: (!queues[3].isEmpty())
+            {
+                currentStudent=queues[3].dequeue();
             }
-            if(currentStudent != null){
-                remainingWorkload=currentStudent.getWorkLoad();
-                log.append("Time ").append(time).append(", Started helping ").append(currentStudent.toString()).append("/n");
+            if(currentStudent!=null){
+                remainingWorkload = currentStudent.getWorkLoad();
+                log += "\nTime " + time +", Started helping "+ currentStudent.toString();
             }
+            
+        
         }
         time++;
     }
-    public void addStudent(Student s){
-        addStudent(s.getArrival(), s.getName(), s.getCourse(), s.getWorkLoad());
-    }
 
-    public void addStudent(Integer arrival, String name, int course, int workload){
+    public void addStudent(String name, int course, int workload){
     // Add an arriving student with the indicated name, course number, and mi
-        Student s = new Student(arrival, name, course, workload);
+        Student s = new Student(name, course, workload);
         int level= s.getLevel();
 
-        if(level==1) q100.enqueue(s);
-        else if(level==2) q200.enqueue(s);
-        else if(level==3) q300.enqueue(s);
-        else if (level==4) q400.enqueue(s);
-        else System.out.println("error");
+        if (level == 100){            
+            for (int i = 0; i<4; i++)
+            {
+                if (!queues[i].isFull())
+                {   
+                    queues[i].enqueue(s);
+                    log +="\n";
+                    break;
+                }
+                
+                if (i==3 && queues[i].isFull())
+                    log += "\nTurned away " +name+" from CSC " + course;
+            }
+        }
+        else if (level == 200){
+            for (int i = 1; i<4; i++)
+            {
+                if (!queues[i].isFull())
+                {   
+                    queues[i].enqueue(s);
+                    log+="\n";
+                    break;
+                }
+                
+                if (i==3 && queues[i].isFull())
+                    log += "\nTurned away " +name+" from CSC " + course;
+            }
+        }
 
-       // if(!engueue(s,level)){
-			//student was turned away
-        //    System.out.println("error");
-       // }
+        else if (level == 300){
+            for (int i = 2; i<4; i++)
+            {
+                if (!queues[i].isFull())
+                {   
+                    queues[i].enqueue(s);
+                    log += ""; // in theory 2 cases -> start helping or queued
+                    break;
+                }
+                
+                if (i==3 && queues[i].isFull())
+                    log += "\nTurned away " +name+" from CSC " + course;
+            }               
+        
+        }
+
+        else if (level == 400){
+            if (queues[3].isFull())
+                log += "\nTurned away " +name+" from CSC " + course;
+            else
+                queues[3].enqueue(s);
+        }
+        else 
+            System.out.println("You are in a wrong place, go to SI");
     }
+
 
     public int getTime(){
     // Get the current simulation time in minutes.
-        return time;
+        return this.time=time;
     }
 
     public String toString(){
@@ -114,7 +158,7 @@ public class helpDesk{
 
     public String getLog(){
     // Return the entire HelpDesk session log from beginning to end.
-        return log.toString();
+        return log;
     }
 
 }
