@@ -22,9 +22,14 @@ public class HelpDeskSimulator{
             arrival_time = keyboard.nextInt();
             name = keyboard.next();
             course_number = keyboard.nextInt();
+
             workload_time = keyboard.nextInt();
-           // newStudent.Student(arrival_time, name, course_number, workload_time);
-            Student newStudent = new Student(name, course_number, workload_time);
+
+            if(course_number==0) break;
+            // newStudent.Student(arrival_time, name, course_number, workload_time);
+            arrivals.add(arrival_time);
+            students.add(new Student(name, course_number, workload_time));
+           // Student newStudent = new Student(name, course_number, workload_time);
 
         } while  (course_number != 0);
 
@@ -32,14 +37,15 @@ public class HelpDeskSimulator{
         helpDesk help = new helpDesk();
         int nextIndex=0;
 
-        for(int minute =1; minute< of_hrs; minute++){
+        for(int minute =0; minute< of_hrs; minute++){
             while(nextIndex<students.size()&& arrivals.get(nextIndex)== minute){
                 Student s = students.get(nextIndex);
                 help.addStudent(s.getName(), s.getCourse(), s.getWorkLoad());
                 nextIndex++;
             }
-            help.step();
+            help.step(); 
             System.out.println(help.toString());
+             
         }
 
         //output

@@ -16,15 +16,15 @@ public class helpDesk{
 
 */  
      public helpDesk(){
-        queues = new arrayBoundedQueue[4]; // array size 4 - since we have level 1, 2, 3, 4
+        queues = (arrayBoundedQueue<Student>[]) new arrayBoundedQueue[4]; // array size 4 - since we have level 1, 2, 3, 4
         // populate the array -> put chairs at each waiting room
         for (int i = 0; i<4; i++) {
             queues[i] = new arrayBoundedQueue<>(3); // send our capacity to ArrayBoundedQueue class -> be able to work with every lvl independantly
         }
-        this.time=0;
-        this.remainingWorkload=0;
-        this.currentStudent=null;
-        this.log="";
+       // this.time=0;
+       // this.remainingWorkload=0;
+       // this.currentStudent=null;
+       // this.log="";
         
     }
 
@@ -49,10 +49,11 @@ public class helpDesk{
         */
     public void step(){
     // Advance the simulation one minute.
+        
         if(currentStudent !=null){
             remainingWorkload--;
             if(remainingWorkload==0){
-                log+="Time " +time +", Finished helping " +currentStudent.toString();
+                log+="Time " +time +", Finished helping " +currentStudent.toString()+"\n";
                 currentStudent=null;            
             }
         }
@@ -72,10 +73,8 @@ public class helpDesk{
             }
             if(currentStudent!=null){
                 remainingWorkload = currentStudent.getWorkLoad();
-                log += "\nTime " + time +", Started helping "+ currentStudent.toString();
+                log += "Time " + time +", Started helping "+ currentStudent.toString()+"\n";
             }
-            
-        
         }
         time++;
     }
@@ -143,7 +142,7 @@ public class helpDesk{
 
     public int getTime(){
     // Get the current simulation time in minutes.
-        return this.time=time;
+        return time;
     }
 
     public String toString(){
@@ -160,5 +159,4 @@ public class helpDesk{
     // Return the entire HelpDesk session log from beginning to end.
         return log;
     }
-
 }
