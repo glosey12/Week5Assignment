@@ -3,7 +3,7 @@ public class helpDesk{
     private int time=0;
     private int remainingWorkload;
     private String log ="";
-   // private StringBuilder log = new StringBuilder();
+    int finishStTime;
 
     // array bounded queue
     private arrayBoundedQueue<Student>[] queues;
@@ -21,10 +21,10 @@ public class helpDesk{
         for (int i = 0; i<4; i++) {
             queues[i] = new arrayBoundedQueue<>(3); // send our capacity to ArrayBoundedQueue class -> be able to work with every lvl independantly
         }
-       // this.time=0;
-       // this.remainingWorkload=0;
-       // this.currentStudent=null;
-       // this.log="";
+        this.time=0;
+        this.remainingWorkload=0;
+        this.currentStudent=null;
+        this.log="";
         
     }
 
@@ -48,13 +48,16 @@ public class helpDesk{
     }
         */
     public void step(){
-    // Advance the simulation one minute.
+        // Advance the simulation one minute.
+        //addStudent(s.getName(), s.getCourse(), s.getWorkLoad());
+
         
         if(currentStudent !=null){
             remainingWorkload--;
             if(remainingWorkload==0){
-                log+="Time " +time +", Finished helping " +currentStudent.toString()+"\n";
-                currentStudent=null;            
+                log+="\nTime " +time +", Finished helping " +currentStudent.toString();
+                currentStudent=null;  
+                finishStTime = time;          
             }
         }
         if(currentStudent==null){
@@ -73,7 +76,9 @@ public class helpDesk{
             }
             if(currentStudent!=null){
                 remainingWorkload = currentStudent.getWorkLoad();
-                log += "Time " + time +", Started helping "+ currentStudent.toString()+"\n";
+                if (time == finishStTime)
+                    log += "\n";
+                log += "Time " + time +", Started helping "+ currentStudent.toString();
             }
         }
         time++;
@@ -90,7 +95,11 @@ public class helpDesk{
                 if (!queues[i].isFull())
                 {   
                     queues[i].enqueue(s);
-                    log +="\n";
+                    if(currentStudent!=null){
+                        log +="\nTime " +(time) + ", Queued "  + name + " from " + course;
+                    }
+                    else
+                        log +="\n";
                     break;
                 }
                 
@@ -104,7 +113,11 @@ public class helpDesk{
                 if (!queues[i].isFull())
                 {   
                     queues[i].enqueue(s);
-                    log+="\n";
+                   if(currentStudent!=null){
+                        log +="\nTime " +(time) + ", Queued " + name + " from " + course; //currentStudent.toString();
+                    }
+                    else
+                        log +="\n";
                     break;
                 }
                 
@@ -119,7 +132,11 @@ public class helpDesk{
                 if (!queues[i].isFull())
                 {   
                     queues[i].enqueue(s);
-                    log += ""; // in theory 2 cases -> start helping or queued
+                    if(currentStudent!=null){
+                        log +="\nTime " +(time) + ", Queued "  + name + " from " + course;
+                    }
+                    else
+                        log +="\n"; // in theory 2 cases -> start helping or queued
                     break;
                 }
                 
@@ -132,8 +149,14 @@ public class helpDesk{
         else if (level == 400){
             if (queues[3].isFull())
                 log += "\nTurned away " +name+" from CSC " + course;
-            else
+            else{
                 queues[3].enqueue(s);
+                if(currentStudent!=null){
+                        log +="\nTime " +(time) + ", Queued "  + name + " from " + course;
+                }
+                else
+                    log +="\n";
+                }
         }
         else 
             System.out.println("You are in a wrong place, go to SI");
@@ -148,10 +171,10 @@ public class helpDesk{
     public String toString(){
     // Return the status of the simulation. Example: "Time 2, Helping Jack fr
         if(currentStudent==null){
-            return "Time " +time +", IDLE";
+            return "Time " +(time-1) +", IDLE";
         }
         else{
-            return "Time " +time+ ", Helping " + currentStudent.toString();
+            return "Time " +(time-1)+ ", Helping " + currentStudent.toString();
         }
     }
 
