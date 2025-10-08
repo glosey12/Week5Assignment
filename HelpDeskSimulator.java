@@ -82,14 +82,16 @@ public class HelpDeskSimulator{
         helpDesk help = new helpDesk();
 
 
+
         for(int minute =0; minute< of_hrs; minute++){
+             help.step();
             for (int i =0; i<students.size(); i++) {
                 if (arrivals.get(i)==minute) {
                     Student s = students.get(i);
                     help.addStudent(s.getName(), s.getCourse(), s.getWorkLoad());
                 }
             }
-            help.step();
+           
           
             System.out.println(help.toString());    
         }

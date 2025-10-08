@@ -50,12 +50,12 @@ public class helpDesk{
     public void step(){
         // Advance the simulation one minute.
         //addStudent(s.getName(), s.getCourse(), s.getWorkLoad());
-
+         time++;
         
         if(currentStudent !=null){
             remainingWorkload--;
             if(remainingWorkload==0){
-                log+="\nTime " +time +", Finished helping " +currentStudent.toString();
+                log+="\nTime " +(time-1) +", Finished helping " +currentStudent.toString();
                 currentStudent=null;  
                 finishStTime = time;          
             }
@@ -78,16 +78,24 @@ public class helpDesk{
                 remainingWorkload = currentStudent.getWorkLoad();
                 if (time == finishStTime)
                     log += "\n";
-                log += "Time " + time +", Started helping "+ currentStudent.toString();
+                log += "Time " + (time-1) +", Started helping "+ currentStudent.toString();
             }
         }
-        time++;
+       
     }
 
     public void addStudent(String name, int course, int workload){
     // Add an arriving student with the indicated name, course number, and mi
         Student s = new Student(name, course, workload);
         int level= s.getLevel();
+
+        if(currentStudent ==null){
+            currentStudent =s;
+            remainingWorkload=s.getWorkLoad();
+            log += "Time " + (time-1) +", Started helping "+ currentStudent.toString();
+            return;
+    
+        }
 
         if (level == 100){            
             for (int i = 0; i<4; i++)
@@ -96,7 +104,7 @@ public class helpDesk{
                 {   
                     queues[i].enqueue(s);
                     if(currentStudent!=null){
-                        log +="\nTime " +(time) + ", Queued "  + name + " from " + course;
+                        log +="\nTime " +(time-1) + ", Queued "  + name + " from " + course;
                     }
                     else
                         log +="\n";
@@ -104,7 +112,7 @@ public class helpDesk{
                 }
                 
                 if (i==3 && queues[i].isFull())
-                    log += "\nTurned away " +name+" from CSC " + course;
+                    log += "\nTime " +(time-1) + ", Turned away " +name+" from CSC " + course;
             }
         }
         else if (level == 200){
@@ -114,7 +122,7 @@ public class helpDesk{
                 {   
                     queues[i].enqueue(s);
                    if(currentStudent!=null){
-                        log +="\nTime " +(time) + ", Queued " + name + " from " + course; //currentStudent.toString();
+                        log +="\nTime " +(time-1) + ", Queued " + name + " from " + course; //currentStudent.toString();
                     }
                     else
                         log +="\n";
@@ -122,7 +130,7 @@ public class helpDesk{
                 }
                 
                 if (i==3 && queues[i].isFull())
-                    log += "\nTurned away " +name+" from CSC " + course;
+                    log += "\nTime " +(time-1) + ", Turned away " +name+" from CSC " + course;
             }
         }
 
@@ -133,7 +141,7 @@ public class helpDesk{
                 {   
                     queues[i].enqueue(s);
                     if(currentStudent!=null){
-                        log +="\nTime " +(time) + ", Queued "  + name + " from " + course;
+                        log +="\nTime " +(time-1) + ", Queued "  + name + " from " + course;
                     }
                     else
                         log +="\n"; // in theory 2 cases -> start helping or queued
@@ -141,18 +149,18 @@ public class helpDesk{
                 }
                 
                 if (i==3 && queues[i].isFull())
-                    log += "\nTurned away " +name+" from CSC " + course;
+                    log += "\nTime " +(time-1) + ", Turned away " +name+" from CSC " + course;
             }               
         
         }
 
         else if (level == 400){
             if (queues[3].isFull())
-                log += "\nTurned away " +name+" from CSC " + course;
+                log += "\nTime " +(time-1) + ", Turned away " +name+" from CSC " + course;
             else{
                 queues[3].enqueue(s);
                 if(currentStudent!=null){
-                        log +="\nTime " +(time) + ", Queued "  + name + " from " + course;
+                        log +="\nTime " +(time-1) + ", Queued "  + name + " from " + course;
                 }
                 else
                     log +="\n";
